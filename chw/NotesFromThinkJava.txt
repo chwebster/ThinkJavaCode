@@ -1,0 +1,1223 @@
+Examples of code from the first three chapters are contained in Hello.java
+
+
+Chapter 1 - The way of the program
+----------------------------------
+
+Java is a combination of a compiler and interpreter. The compiler compiles a .java source file to bytecode in a .class file. The bytecode is platform independent. An interpreter then interprets the bytecode, but much faster than a high-level interpreter.
+
+To compile a .java file at the command line, type javac filename.java
+
+This will generate filename.class
+
+To run the class file, type java filename.class
+
+This will run the program.
+
+---
+
+An escape sequence is something that gets you out of whatever you were in, temporarily.
+
+The \ character is the escape character for strings. So if you want to put a " inside a string surrounded by "", you do \".
+
+---
+
+
+Chapter 2 - Variables and Operators
+-----------------------------------
+
+---
+
+
+Chapter 3 - Input and Output
+----------------------------
+
+Any class that is in the java.lang package does not need to be imported. This package is imported automatically.
+
+java.lang contains classes like:
+
+System
+String
+Math
+
+A literal is the same as a constant. It can't be reassigned.
+
+The java.util package contains useful classes like:
+
+Scanner		(for getting keyboard input)
+Random		(for generating random numbers)
+
+---
+
+
+Chapter 4 - Void methods
+------------------------
+
+Literals and variables defined in classes do not have () after them. Only methods have ().
+
+The easiest way to find documentation for Java classes is to do a web search for “Java” and the name of the class.
+
+In Java, the log method always uses base e.
+
+“camel case” means jammingWordsTogetherLikeThis.
+
+public methods can be invoked from other classes than the one in which they are defined.
+
+void methods don't return anything.
+
+Execution always begins at the first statement of main, regardless of where it is in the source file. So we should start reading the program from main.
+
+When you call a method, you provide the arguments. When you define a method, you name the parameters.
+
+main takes the parameter args, which is an array of strings String[].
+
+In Java, you have to declare the type of every parameter individually in the method definition.
+
+Parameters and other variables are local to their own methods.
+
+Any string can be passed to a Scanner object, but if we want to use the keyboard input, we can pass System.in, which is a string taken from the keyboard.
+
+This chapter provides guidance on how to read Java documentation.
+
+A method's signature is just its definition line.
+
+If you include documentation in your source code, you can extract it automatically, and generate well-formatted HTML, using a tool called Javadoc.
+
+“Javadoc comments” begin with /** and end with */. Anything in between is considered part of the documentation. They go before the class/method definition.
+
+Javadoc comments are intended for people who will use the methods without looking at the source code.
+
+---
+
+
+Chapter 5 - Conditionals and Logic
+----------------------------------
+
+Be careful when using relational operators with strings. == and != don't do what you expect. If you want to check if two strings are the same, use the equals method:
+
+String fruit1 = "Apple";
+String fruit2 = "Orange";
+System.out.println(fruit1.equals(fruit2));
+
+Boolean values are true and false in Java (without capital letters).
+
+---
+
+Java has three logical operators: 
+
+&&	and
+||	or 
+!	not
+
+---
+
+De Morgan’s laws:
+
+􏰪!(A && B) is the same as !A || !B 􏰪 
+!(A || B) is the same as !A && !B
+
+Negating a logical expression is the same as negating each term and changing the operator. 
+
+The ! operator takes precedence over && and ||, so you don’t have to put parentheses around the individual terms !A and !B.
+
+De Morgan’s laws also apply to the relational operators. In this case, negating each term means using the “opposite” relational operator.
+
+􏰪!(x<5 && y==3) is the same as x>=5 || y!=3 􏰪
+!(x>=1 || y!=7) is the same as x<1 && y==7
+
+It may help to read these examples out loud in English. For instance, “If I don’t want the case where x is less than 5 and y is 3, then I need x to be greater than or equal to 5, or I need y to be anything but 3.”
+
+---
+
+Braces can be left out for if blocks where the branches are single statements, but it's better to leave them in.
+
+---
+
+There appears to be no equivalent of try, except in Java. We just have to use an if block with System.err.println("Error message"); and return;
+
+---
+
+Recursive routines can be made to run forwards or backwards, depending on whether the operations are before or after the recursive call.
+
+---
+
+
+Chapter 6 - Value Methods
+-------------------------
+
+There is no ** operator in Java. If you want to square something you have to multiply it by itself:
+
+x_squared = x * x;
+
+or use 
+
+x_squared = Math.pow(x, 2);
+
+---
+
+Overloading:
+
+Having more than one method with the same name is called overloading, and it is legal in Java as long as each version takes different parameters.
+
+When you invoke an overloaded method, Java knows which version you want by looking at the arguments that you provide.
+
+But watch out for calling an overloaded method from another method with the same name. This will look like a recursive call, although it isn't.
+
+It can also be confusing trying to debug overloaded methods. You might end up debugging the wrong one!
+
+Many Java methods are overloaded, i.e. there are different versions that accept different numbers or types of parameters. For example, there are different versions of print and println that each accept a single parameter of a different data type. In the Math class, there is a version of abs that works on doubles, and there is also a version for ints.
+
+---
+
+Methods can return boolean values, which is convenient for hiding tests inside methods:
+ public static boolean isSingleDigit(int x) {
+    return x > -10 && x < 10;}
+
+It is common to give boolean methods names that sound like yes/no questions, or that start with "is". This makes them go well with conditional statements like
+
+if (isSingleDigit(x)) {
+    System.out.println("x is single digit.");
+}
+
+---
+
+Javadoc supports optional tags that begin with the @ sign. For example, we can use @param and @return to provide additional information about parameters and return values.
+
+For example:
+
+/**
+ * Tests whether x is a single digit integer.
+ * * @param x the integer to test
+ * @return true if x has one digit, false otherwise
+ */
+
+When formatted by Javadoc, this looks like:
+
+  isSingleDigit
+  public static boolean isSingleDigit(int x)
+
+  Tests whether x is a single digit integer.
+
+  Parameters:
+  x -­ the integer to test 
+
+  Returns:
+  true if x has one digit, false otherwise
+
+Methods with multiple parameters should have separate @param tags that describe each one. Void methods should have no @return tag, since they do not return a value.
+
+---
+
+A Turing complete programming language can compute anything computable, for any reasonable definition of “computable”. This idea was developed by Alonzo Church and Alan Turing, so it is known as the Church-Turing thesis.
+
+Any language is Turing complete if it has functions that can return values. All loops can be implemented by recursive function calls.
+
+---
+
+Commonly defined recursive methods are the factorial function and the Fibonacci sequence.
+
+You can also define a function for x^n using a recursive routine: x^n = x * x^(n-1).
+
+---
+
+stub: A placeholder for an incomplete method so that the class will compile, e.g. 
+
+return 0;
+
+scaffolding: Code that is used during program development but is not part
+of the final version, e.g. temporary variables.
+
+---
+
+
+Chapter 7 - Loops
+-----------------
+
+In Java, for loops have three components in parentheses, separated by semicolons: the initializer, the condition, and the update:
+
+for (int i = 1; i <= 10; i = i + 1) {
+    System.out.println(i);
+}
+
+++ is the increment operator; it has the same effect as i = i + 1. 
+-- is the decrement operator; it has the same effect as i = i - 1.
+
+We can also use += and -=, e.g. i += 2 means i = i + 2.
+
+The while and for statements are pretest loops; that is, they test the condition first and at the beginning of each pass through the loop.
+
+---
+
+Java provides a posttest loop: the do-while statement. This type of loop is useful when you need to run the body of the loop at least once.
+
+---
+
+break and continue:
+
+When a program reaches a break statement, it exits the current loop.
+When it reaches a continue statement, it moves on to the next iteration.
+
+I would be most likely to use break and continue within an infinite loop, e.g. 
+
+while (true) {
+    ...
+    if (x) {
+        continue;
+    }
+    if (y) {
+        break;
+    }
+}
+
+Although break and continue statements give you more control of the loop execution, they can make code difficult to understand and debug. Use them sparingly.
+
+---
+
+
+Chapter 8 - Arrays
+------------------
+
+To create an array, you have to declare a variable with an array type and then create the array itself:
+
+// 1. Declare array
+int[] counts;
+double[] values;
+
+// 2. Create array, declaring the dimension
+counts = new int[4];values = new double[size];
+
+You can declare the variable and create the array in a single line of code:
+
+int[] counts = new int[4];
+double[] values = new double[size];
+
+When you create an array, the elements are initialized to zero.
+
+The name of an array is just a reference to the array's position in memory. Another variable can also point to the same array. Likewise, an array name can be reassigned to a different array in a different memory location.
+
+---
+
+Any variable or expression used for indexing arrays must have type int.
+
+---
+
+Trying to print an array using
+
+System.out.println(a);
+
+will generate something like [I@bf3f7e0, where [I means it's an integer array, and the hex number is its address in memory.
+
+The Java library java.util.Arrays provides methods for working with arrays, e.g. toString, which returns a string representation of an array. We can invoke it like this:
+
+System.out.println(Arrays.toString(arr));
+
+---
+
+Aliasing:
+
+Just like with lists in Python, assigning an array to a new name only copies the reference, not the whole array. This leaves the array at the same location in memory, but it now has two variables pointing to it. If we modify one of the variables, the other will  therefore be modified as well.
+
+Two variables pointing to the same array are called aliases.
+
+java.util.Arrays provides a method named copyOf that copies an array. You can invoke it like this:
+
+double[] b = Arrays.copyOf(a, 3); 
+
+the second parameter is the number of elements to copy.
+
+---
+
+Array traversal:
+
+Looping through the elements of an array is called array traversal.
+
+A search traverses an array looking for a particular element.
+
+A common return value for a failed search is -1.
+
+---
+
+Reduce operations:
+
+Reduce operations are those that reduce an array to a single number, like max, min, sum, mean, etc.
+
+---
+
+An accumulator is a variable that accumulates during a loop, like a sum or counter.
+
+---
+
+Enhanced for loop:
+
+This is like the Python syntax "for value in values:", where values is an array. The Java syntax is:
+
+for (int value : values) {
+    // code goes here
+} 
+
+It is conventional to use plural nouns for array variables and singular nouns for element variables.
+
+Enhanced for loops make code more readable, but they are not helpful when you need to make use of the array index for the current iteration. When the index is required, it's better to use a standard for loop.
+
+---
+
+Some good exercises on using arrays at the end of this chapter.
+
+---
+
+
+Chapter 9 - Strings and things
+------------------------------
+
+Strings are objects in Java. They contain characters and provide methods for manipulating character data.
+
+Not everything in Java is an object: int, double, char and boolean are so-called primitive types. We will explain some of the differences between object types and primitive types as we go along.
+
+char is a primitive type that stores an individual character.
+
+The string method charAt is useful for indexing into strings:
+
+String fruit = "banana";
+char letter = fruit.charAt(0);
+
+---
+
+In Java, char literals have single quotes: 'a', whereas String literals have double quotes: "apple".
+
+Escape sequences like \t represent a single character, so these also get single quotes if they are in a char literal.
+
+---
+
+The increment and decrement operators work with characters:
+
+'a'++ == 'b'
+
+N.B. When you do the following in the interactions pane of DrJava, the increment appears to take effect only the second time you do it:
+
+char letter = 'a'
+letter++
+letter++
+
+i.e. the first time you type letter++, the result is 'a'. The second time it is 'b'. However, if you then type letter to print out the value of letter, it gives 'c'. So it looks as if the interactions pane prints out the previous value of letter when you type letter++.
+
+N.B. If you type letter += 1, the increment works first time in the interactions pane, but you get the unicode value for the next letter, e.g. 66 for 'B'.
+
+---
+
+Java uses Unicode.
+
+The main difference between unicode and ASCII is in the way they encode the character and the number of bits that they use for each. ASCII originally used seven bits to encode each character. In contrast, Unicode uses a variable bit encoding program where you can choose between 32, 16, and 8-bit encodings.
+
+ASCII defines 128 characters, which map to the numbers 0–127. Unicode defines (less than) 2^21 characters, which, similarly, map to numbers 0–2^21 (though not all numbers are currently assigned, and some are reserved).
+
+Unicode is a superset of ASCII, and the numbers 0–128 have the same meaning in ASCII as they have in Unicode. For example, the number 65 means "Latin capital 'A'".
+
+Because Unicode characters don't generally fit into one 8-bit byte, there are numerous ways of storing Unicode characters in byte sequences, such as UTF-32 and UTF-8.
+
+For more history of ASCII and unicode, see:
+
+https://stackoverflow.com/questions/19212306/whats-the-difference-between-ascii-and-unicode
+
+See also:
+
+http://unicode.org/
+
+---
+
+Strings are immutable, just like in Python.
+
+Strings provide methods, like toUpperCase, toLowerCase and replace.
+
+When applied to a string, these methods will return a new string. We can re-assign this new string to the name of the old string, e.g.
+
+String text = "Computer Science is fun!";text = text.replace("Computer Science", "CS");
+
+This assignment is important; if you don’t save the return value, invoking text.replace has no effect!
+
+Reassignment when using string methods can confuse new students, who think it makes strings look mutable.
+
+Strings provide a method called length that returns the number of characters in the string. Because it is a method, you have to invoke it with ():
+
+text.length()
+
+---
+
+Indexing into a string:
+
+String fruit = "Orange";
+char letter = fruit.charAt(i);
+System.out.println(letter);
+
+The indexOf method searches for the index of a character within a string:
+
+int index = fruit.indexOf('a'); // returns the index of the first instance of 'a'
+
+We can search starting from a particular index:
+
+index = fruits.indexOf('a', 1);
+
+You can also use indexOf to search for a substring, not just a single character. For example, the expression fruit.indexOf("ran") returns 1.
+
+---
+
+Unfortunately, the enhanced for loop does not work with strings. But you can convert any string to a character array and iterate that:
+
+for (char letter : fruit.toCharArray()) {
+    System.out.println(letter);
+}
+
+---
+
+Substrings:
+
+fruit.substring(2) returns "ange".
+
+Like most string methods, substring is overloaded. That is, there are other versions of substring that have different parameters:
+
+fruit.substring(2, 5) returns "ang"
+
+---
+
+String comparison:
+
+We shouldn't compare strings using == because this only compares the references to the strings. If there are two strings with different names, but possessing the same characters, == will yield false.
+
+The correct way to compare strings is with the equals method:
+
+if (name1.equals(name2)) {
+    System.out.println("The names are the same.");}
+
+The compareTo method returns 0 if two strings are the same, -ve if string1 is before string2 alphabetically, and +ve if string2 is before string1 (the actual value is the difference in Unicode values between the first pair of different letters):
+
+int diff = string1.compareTo(string2);
+
+---
+
+String formatting:
+
+To create a formatted string:
+
+time12hr = String.format("%02d:%02d %s", hour, minute, ampm);
+
+---
+
+Wrapper classes:
+
+Primitive types (like ints, doubles, and chars) do not provide methods.
+
+But for each primitive type, there is a corresponding class in the Java library, called a wrapper class. 
+
+The wrapper class for char is called Character; for int it’s called Integer. Other wrapper classes include Boolean, Long, and Double. They are in the java.lang package, so you can use them without importing them.
+
+Each wrapper class defines constants MIN_VALUE and MAX_VALUE. For example, Integer.MIN_VALUE is -2147483648, and Integer.MAX_VALUE is 2147483647. Because these constants are available in wrapper classes, you don’t have to remember them.
+
+Wrapper classes provide methods for converting strings to other types and vice versa:
+
+String str = "12345";int num = Integer.parseInt(str);
+
+int num = 12345;
+String str = Integer.toString(num);
+
+There are also Double.parseDouble and Boolean.parseBoolean for converting doubles and booleans to strings respectively.
+
+---
+
+Calling a Java program from the command line:
+
+To call a Java program from the command line we type "java", followed by the name of the class, followed by a list of arguments that get passed to the array args. 
+
+For example, suppose we have a program called PrintArray.java as follows:
+
+public class PrintArray {
+    public static void main(String[] args) {
+        System.out.println(Arrays.toString(args));
+    }
+}
+
+We can call this from the command line as follows:
+
+java PrintArray 10 -3 55 0 14
+
+The output will be:
+
+[10, -3, 55, 0, 14]
+
+---
+
+Exercises contains a useful exercise to determine what happens when you try to add different types using the + operator.
+
+---
+
+
+Chapter 10 - Objects
+--------------------
+
+The java.awt package provides a class named Point intended to represent the coordinates of a location in a Cartesian plane. We can import it as follows:
+
+import java.awt.Point;
+
+To create an object, its type must first be declared, e.g. to create a point object p we first need to declare that it is of type Point:
+
+Point p;
+
+Then we use the new operator to create a reference to a new Point object:
+
+p = new Point(3, 4);
+
+The parameters in the brackets initialise the attributes of the Point object p.
+
+Attributes are also sometimes called fields. They are accessed using point notation:
+
+int x = p.x;
+int y = p.y;
+
+---
+
+Objects can be passed as parameters to methods. For example, here is a method to print a string representation of a Point object:
+
+public static void printPoint(Point p) {
+    System.out.println("(" + p.x + ", " + p.y + ")");
+}
+
+We can call it as follows:
+
+printPoint(p);
+
+We don't actually need to create our own method for printing the string representation of a Point object, as the java.awt.Point class provides a special method called toString that already does this. The toString method is special because Java knows to implement it whenever we call println() on an object. toString is just like the special method __str__ in Python:
+
+System.out.println(p);
+
+This yields:
+
+java.awt.Point[x=3,y=4]
+
+Methods can also return objects, e.g.
+
+public static Point invert(Point p) {
+    int x = -p.x;
+    int y = -p.y;
+    return new Point(x, y);
+}
+
+Note that the first line has to declare the type of the object returned (Point).
+
+---
+
+Object-oriented programming:
+
+Suppose we want to write a method to modify an object. We could do this two ways:
+
+1. Write a general method that takes the object to be modified as one of its parameters. Within this method we include the code that modifies the object's attributes. The method doesn't return anything. Its purpose is to modify the object passed to it. We would invoke such a method with a call like method_name(object_name, par1, par2, ...).
+
+2. Write a method within the object's class definition, such that it can be invoked using dot notation, e.g. object_name.method_name(par1, par2, ...).
+
+The latter is considered best practice. When using the former, it isn't always clear whether the method is intended to modify the object. The latter makes this intention clearer.
+
+---
+
+Aliasing:
+
+Objects have the same problem with aliasing as lists in Python, arrays in Java, etc.
+
+Remember that when you assign an object to a variable, you are only assigning a reference to the object. It is possible to have multiple variables that refer to the same object.
+
+Here's an example:
+
+Point p1 = new Point(3, 4);
+Point p2 = p1;
+
+If we modify the attributes of p2, we also modify the attributes of p1, because they are identical. p2 simply points to the same location in memory as p1.
+
+---
+
+The null keyword:
+
+When we declare a variable's type, what we're doing is creating a variable name that we will use to refer to an object's location in memory.
+
+If we don't immediately want to assign an object to the variable, we can assign null instead, which means "no object". The variable then becomes a null reference or null pointer, as it doesn't point to anything. For example:
+
+Point p = null;
+
+The above statement means we've created a variable p which we want to use to refer to a Point object, but so far it's not referring to anything. null is sometimes used as a placeholder for an object, or to indicate an error.
+
+---
+
+Garbage collection:
+
+Suppose we create an object, then set its reference to null. This effectively strands the object. It has no variable pointing to it, so it can't be modified. It is now useless, but it's still sitting there taking up memory. For example:
+
+Point p = new Point(3, 4);
+p = null;
+
+Luckily, Java automatically looks for stranded objects while a program is running, and removes them to free up space. This is called "garbage collection".
+
+Most of the time we will be blissfully unaware of the garbage collection process going on in the background, but in high-performance applications, we may notice a slight delay every now and then when Java reclaims space from discarded objects.
+
+---
+
+Unified Modeling Language (UML) defines a standard way to summarize the design of a class.
+
+---
+
+The Java library source code is stored in a file named src.zip.
+
+On OS X, it’s likely under: /Library/Java/JavaVirtualMachines/jdk.../Contents/Home/
+
+On Linux, it’s likely under: /usr/lib/jvm/openjdk-8/ (You might need to install the openjdk-8-source package.)
+
+On Windows, it’s likely under: C:\Program Files\Java\jdk...\
+
+---
+
+
+Chapter 11 - Classes
+--------------------
+
+In Java, everything is an object, so even if you just want to write a basic procedural program, you have to encapsulate it in a class and call the class to run it.
+
+A class will execute like a script if it has a method called main.
+
+We can create a class that doesn't have a main method, i.e. a class that is just intended for creating objects. However, this class can't be executed by itself.
+
+---
+
+The new operator instantiates objects, i.e. instances of a class.
+
+---
+
+Data encapsulation:
+
+Encapsulating data (variables and arrays) in an object helps us to pass the data as parameters and return values in a nice neat way without having to pass millions of parameters.
+
+---
+
+Attributes are also called instance variables.
+
+Class attributes are called class variables.
+
+Instance variables are declared at the beginning of the class definition, outside of any method:
+
+public class Time {
+    private int hour;
+    private int minute;
+    private double second;}
+
+Instance variables are private, which means they can only be accessed from inside the class.
+
+Information hiding:
+
+Private instance variables help keep classes isolated from each other so that changes in one class won’t require changes in other classes. It also simplifies what other programmers need to understand in order to use your classes. This kind of isolation is called information hiding.
+
+---
+
+Constructors:
+
+A constructor method is like __init__ in Python. It initialises a new instance of a class.
+
+The constructor has to have the same name as the class. We omit the keyword static, and we don't specify a return type, as the constructor automatically returns a Time object:
+
+public Time() {
+    this.hour = 0;
+    this.minute = 0;
+    this.second = 0.0;
+}
+
+The keyword "this" refers to the object we are creating, like "self" in Python, except in Python you can call "self" anything you like, whereas in Java, "this" is a keyword. 
+
+Whenever we create an object or call a method on an object, the object's name (reference) gets passed to "this".
+
+Like void methods, constructors do not return values.
+
+To create a Time object, we must use the new operator: 
+
+Time t = new Time();
+
+The name t gets passed to "this".
+
+---
+
+Constructor overloading:
+
+Like other methods, constructors can be overloaded, which means you can provide multiple constructors with different parameters. Java knows which constructor to invoke by matching the arguments you provide with the parameters of the constructors.
+
+It is common to provide a constructor that takes no arguments, like the previous one, and a “value constructor”, like this one:
+
+public Time(int hour, int minute, double second) {
+    this.hour = hour;
+    this.minute = minute;
+    this.second = second;
+}
+
+When the parameters are given the same names as the instance variables, we say that they "shadow" the instance variables.
+
+Overloading constructors provides the flexibility to create an object first and then fill in the attributes, or collect all the information before creating the object itself.
+
+---
+
+Clients:
+
+A class that uses objects defined in another class is called a client:
+
+public class TimeClient {
+    public static void main(String[] args) {
+        Time t = new Time(11, 59, 59.9);
+    }
+}
+
+N.B. We put this code in a file called TimeClient.java. Java knows to look for the Time class in a separate file called Time.java. We don't have to compile Time.java before compiling TimeClient.java. Java will compile both when we compile TimeClient.java.
+
+---
+
+Getters and Setters:
+
+Because the instance variables of Time are private, if we try to access them from another class, the compiler generates an error, e.g. if we put the following in the main method of TimeClient, we get an error:
+
+System.out.println(t.hour);      // compiler error "hour has private access in Time"
+
+We don't want to make the instance variables in Time public, because this will make the TimeClient class dependent on the Time class. Therefore, if we change something in the Time class later on, we'll have to update the TimeClient class too. To avoid this and make the two classes independent, we can write "getter" methods (formally known as "accessors") for the instance variables in the Time class. These will return the values of the private instance variables:
+
+public int getHour() {
+    return this.hour;
+}
+public int getMinute() {
+    return this.minute;}
+public double getSecond() { // Erratum (int in text)
+    return this.second;
+}
+
+Now we can change our print line in TimeClient to:
+
+System.out.println(t.getHour());  // This works!
+
+If we decide that TimeClient should also be able to modify the instance variables of Time, we can provide methods to do that, too, formally known as "mutators", but more commonly known as "setters":
+
+public void setHour(int hour) {
+    this.hour = hour;
+}
+
+public void setMinute(int minute) {    this.minute = minute;
+}
+
+public void setSecond(double second) { // Erratum (int in text)
+    this.second = second;
+}
+
+Writing getters and setters can get boring, but many IDEs can generate them for you based on the instance variables.
+
+---
+
+String representation of an object for printing:
+
+Every object has a default method called toString that returns a string representation of the object. When you call print or println, Java invokes the object’s toString method.
+
+By default, the toString method returns a string representation of the object's location in memory. However, we can override this by providing our own toString method:
+
+public String toString() {
+    return String.format("%02d:%02d:%04.1f", this.hour, this.minute, this.second);
+}
+
+Erratum (/n present in format string in text, but shouldn't be there).
+
+---
+
+Instance methods:
+
+Note that the keyword static is not used in any of the instance methods we have defined.
+
+static is used for methods that are not invoked using dot notation on instances of the method's class. However, you can pass objects to static methods as parameters in ().
+
+Instance methods always refer to the object on which they operate as "this".
+
+---
+
+With objects, the == operator and the equals method check different things:
+
+The == operator checks whether objects are identical, i.e. whether they are the same object.
+
+The equals method checks whether they are equivalent, i.e. whether they have the same value.
+
+By default, the equals method does the same thing as ==. However, we can override it by providing our own equals method:
+
+public boolean equals(Time that) {
+    return this.hour == that.hour 
+	&& this.minute == that.minute 
+	&& this.second == that.second;}
+
+This is an instance method because we didn't use the keyword static. We invoke it by calling it on the first Time object using dot notation and passing the second Time object as a parameter:
+
+t1.equals(t2);
+
+t1 gets passed to "this" and t2 to "that".
+
+Many objects use a similar notion of equivalence; that is, two objects are equivalent if their instance variables are equal. But other definitions are possible.
+
+---
+
+Pure methods vs modifiers:
+
+A method is considered pure if:
+
+It doesn’t modify the object it is invoked on or any of the parameters passed.
+􏰪It doesn’t have any other “side effects”, like printing.
+􏰪The return value only depends on the parameters, not on any other state.
+
+If a pure method returns an object, this will be a new instance, not a modified version of the object on which it is invoked.
+
+A modifier is a method that modifies the object on which it is invoked (and/or some of the other parameters passed). Modifiers are usually void because they don't need to return anything, given that their purpose is to modify their parameters.
+
+Modifiers can be more efficient because they don’t create new objects. But they can also be error-prone. When objects are aliased, the effects of modifiers can be confusing.
+
+---
+
+Immutable objects:
+
+To make a class immutable, like String, you can provide getters but no setters and pure methods but no modifiers. Immutable objects can be more difficult to work with, at first, but they can save you from long hours of debugging.
+
+---
+
+It seems there is no way of overloading the operators +, -, *, etc. in Java, like you can in Python. If there is a way, it isn't mentioned in this book.
+
+---
+
+
+Chapter 12 - Arrays of Objects
+------------------------------
+
+Class variables:
+
+Class variables are identified by the keyword static.
+
+Like instance variables, class variables are defined in a class definition, before the method definitions.
+
+They are created when the program begins (or when the class is used for the first time) and survive until the program ends. 
+
+Class variables are shared across all instances of the class. Hence they are public, rather than private.
+
+Class variables are often used to store constant values that are needed in several places. In that case, they should also be defined as final:
+
+public class Card {
+    public static final String[] RANKS = {
+        null, "Ace", "2", "3", "4", "5", "6", "7",
+        "8", "9", "10", "Jack", "Queen", "King"};
+
+    public static final String[] SUITS = {
+        "Clubs", "Diamonds", "Hearts", "Spades"};    // instance variables and constructors go here
+
+    public String toString() {
+        return RANKS[this.rank] + " of " + SUITS[this.suit];
+    }}
+
+Note that whether a variable is static or final involves two separate considerations: static means the variable is shared, and final means the variable is constant.
+
+Since the array variables are final, and the strings they reference are immutable, there is no danger in making them public.
+
+---
+
+Making immutable objects foolproof:
+
+We can easily make an object immutable by not providing any setter or modifier methods. However, this is not foolproof, as some fool could come along later and add in some setter or modifier methods.
+
+To guard against this, we can make the instance variables final, so that they become constants. Thus, they are set once at initialisation via the constructor method, and after that can no longer be modified:
+
+public class Card {
+    private final int rank;
+    private final int suit;
+    ... 
+}
+
+---
+
+Arrays of objects:
+
+Here's how to create an array of Card objects:
+
+Card[] deckofcards = new Card[52];
+
+This creates an array of null values ready to be populated with Card objects. When we populate it, the elements will become references to the objects. 
+
+---
+
+Search methods:
+
+Suppose we want to search through a deck of cards to check whether a particular card is present. We could do this by traversing the array deckofcards and checking each element to see whether the object there matches the target. This is called sequential search:
+
+public static int search(Card[] deckofcards, Card target) {    for (int i = 0; i < deckofcards.length; i++) {
+        if (deckofcards[i].equals(target)) {
+            return i; 
+        }
+    }
+    return -1;}
+
+The method returns as soon as it discovers the card, which means we don’t have to traverse the entire array if we find the target. If we get to the end of the loop, we know the card is not in the array. Notice that this algorithm depends on the equals method.
+
+If the cards in the array are not in order, there is no way to search faster than sequential search. We have to look at every card, because otherwise we can’t be certain the card we want is not there. But if the cards are in order, we can use better algorithms.
+
+There is a cost associated with sorting an array. However, it can be worthwhile for large arrays, as these are rather inefficient to search sequentially.
+
+If the array is ordered we can use binary search:
+
+public static int binarySearch(Card[] deckofcards, Card target) {
+    int low = 0;
+    int high = deckofcards.length - 1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        int comp = deckofcards[mid].compareTo(target);	if (comp == 0) {       // target found
+    	    return mid;
+	} else if (comp < 0) { // target is above mid
+    	    low = mid + 1;
+	} else {               // target is below mid
+	    high = mid - 1;
+        }
+    }
+    return -1; 
+}
+
+Each time through the loop, we cut the distance between low and high in half. After k iterations, the number of remaining cards is 52/2^k. 
+
+To find the number of iterations it takes to complete, we set 52/2^k = 1 and solve for k.
+
+The result is log_2 52, which is about 5.7. 
+
+So we might have to look at 5 or 6 cards, as opposed to all 52 if we did a sequential search.
+
+More generally, if the array contains n elements, binary search requires log_2 n comparisons, and sequential search requires n. For large values of n, binary search can be much faster.
+
+Binary search can also be written recursively - see p 202.
+
+---
+
+See Exercise 12.4 for a demo of how to read and display images.
+
+---
+
+
+Chapter 13 - Objects of Arrays
+------------------------------
+
+Sorting algorithms:
+
+Selection sort is an inefficient method for sorting an array. It traverses the array multiple times, each time finding the element with the lowest value and swapping it with the ith element.
+
+To sort n items, selection sort has to traverse the array n-1 times. As the time for each traversal is proportional to n, the total time taken scales as n^2.
+
+Merge sort is a better algorithm that scales as n log_2 n. 
+
+The idea behind merge sort is this: if you have two subarrays, each of which has already been sorted, it is easy and fast to merge them into a single, sorted array as follows:
+
+1. Split the disordered array into two subarrays. Sort both from lowest to highest using merge sort.
+
+2. Compare the first values from each subarray and choose the lower one. Append it to the new sorted array (starting from an empty array).
+
+3. Repeat step 2 until one of the subarrays is empty. Then append the remaining elements of the other to the sorted array.
+
+The magical thing about merge sort is that it is inherently recursive. The recursive version of mergeSort should look something like this:
+
+public Deck mergeSort() {    // if the deck is 0 or 1 cards, return it
+    // divide the deck into two subdecks
+    // sort the subdecks using mergeSort
+    // merge the two halves and return the result
+}
+
+The above is known as pseudocode, i.e. a mixture of Java and English as an aid to planning and design.
+
+A good explanation of sorting algorithms can be found at 
+
+http://www.sorting-algorithms.com/
+
+This site includes explanations of the algorithms, animations that show how they work and analysis of their efficiency.
+
+---
+
+The method StringBuilder from java.lang.StringBuilder is a more efficient way of concatenating strings that using the + operator.
+
+---
+
+
+Chapter 14 - Objects of objects (inheritance)
+---------------------------------------------
+
+In Java, the size of an array can't change, so if we need to implement a collection of objects where the number varies, an array isn't the best choice.
+
+An ArrayList (in java.util) is a "collection", i.e. an object that contains other objects. It provides methods to add and remove elements, and it grows and shrinks automatically.
+
+The Java library provides a variety of other collections. 
+
+When you declare an ArrayList, you specify the type it contains in angle brackets (<>):
+
+public class CardCollection {
+
+    private String label;
+    private ArrayList<Card> cards;   // declare an ArrayList of Card objects
+
+    public CardCollection(String label) {	this.label = label;
+        this.cards = new ArrayList<Card>();
+    }
+}
+
+ArrayList provides a method, add, that adds an element to the collection. It also provides a method, remove, that removes the ith element:
+
+cards.add(card);  // card is a Card object
+cards.remove(i);  // remove the ith Card object from the collection
+
+ArrayList has a size method:
+
+cards.size();
+
+To access the elements of an ArrayList, you can’t use the array [] operator. Instead, you have to use the methods get and set:
+
+cards.get(i);
+cards.set(i, card);   // card is a Card object
+
+Here's a fun example:
+
+cards.set(i, cards.get(j));  // sets the ith element to be the same as the jth element
+
+ArrayList provides other useful methods which we can read about in the documentation. Search for "Java ArrayList".
+
+---
+
+Inheritance:
+
+A subclass is a new class that “extends” an existing class; that is, it has the same attributes and methods as the existing class, plus more.
+
+We define a subclass as follows:
+
+public class Deck extends CardCollection {
+
+    public Deck(String label) { // This is the constructor method
+
+        super(label);  // We first call the constructor of the superclass,
+           // which creates a string called "label" and an empty ArrayList called "cards"
+
+	// Then we populate the "cards" attribute with a deck of 52 Card objects
+        for (int suit = 0; suit <= 3; suit++) {
+	    for (int rank = 1; rank <= 13; rank++) {
+        	cards.add(new Card(rank, suit));
+	    }
+	}
+    } 
+}
+
+The keyword "extends" causes the subclass to have the same attributes as the superclass.
+
+Classes that do not specify a superclass with "extends" automatically inherit from java.lang.Object. 
+
+So in this example, Deck extends CardCollection, which in turn extends Object. The Object class provides the default equals and toString methods, among other things.
+
+Constructors are not inherited, but all other public attributes and methods are.
+
+We have to specify a new constructor. A shortcut for doing this is to use the keyword "super", which is a reference to the superclass. So the statement super(label) stands for CardCollection(label), which is the constructor for the CardCollection class.
+
+---
+
+Objects that are instances of a subclass are also considered to be instances of the superclass, in the same way that cats are also mammals. However, instances of a superclass are not considered to be of the same type as its subclasses, in the same way that not all mammals are cats.
+
+---
+
+Class relationships:
+
+There are two common relationships between classes:
+
+composition: Instances of one class contain references to instances of another class. The first class is composed of the second. This is a HAS-A relationship; a Deck has a Card. 
+
+inheritance: One class extends another class. For example, Hand extends CardCollection, so every instance of Hand is also a CardCollection. This is an IS-A relationship; a Hand is a CardCollection.
+
+There is a standard way to represent these relationships graphically in UML class diagrams. The UML representation of a class is a box with three sections: the class name, the attributes, and the methods. The latter two are optional when showing relationships.
+
+Relationships between classes are represented by arrows (see p230): composition (HAS-A) arrows have a standard chevron arrow head, whereas inheritance (IS-A) arrows have a hollow triangle head (usually pointing up).
+
+UML is an international standard, so almost any software engineer in the world could look at a UML diagram and understand the program's design. Class diagrams are only one of many graphical representations defined in the UML standard.
+
+---
+
+
+Appendix A - Development Tools
+------------------------------
+
+Useful info on how to set up Java and which IDEs to use.
+
+Advice on how to compile and run Java programs from the command line.
+
+To compile, type:
+
+javac Hello.java
+
+This creates Hello.class (which is the compiled bytecode).
+
+To run Hello.class, type:
+
+java Hello
+
+Note that you just type the name of the class you want to run. Java knows to look for it in a .class file.
+
+---
+
+How to use a text file to simulate keyboard input and create a text file for the program's output:
+
+At the command line, type:
+
+java Convert < test.in > test.out
+
+The < operator sends the text from the file test.in to the variable System.in, which would normally store keyboard input.
+
+The > operator sends the contents of System.out (which stores the output of print statements) to the file test.out.
+
+We can then compare the file test.out with what we expected the program to output. We can even create a file called test.exp, into which we type the expected output. Then we can compare any differences between test.out and test.exp using the diff command at the command line:
+
+diff test.exp test.out
+
+There are also graphical tools to show differences between two files, e.g. WinMerge (Windows), opendiff (Mac - comes with Xcode) and meld (Linux).
+
+---
+
+Advice on running checkstyle - a command line tool to determine whether source code follows a set of style rules (e.g. Google' style rules).
+
+---
+
+Info about how to use the debugger in DrJava.
+
+---
+
+Description of how to test methods using unit testing with JUnit. You have to create a new .java file containing a test class and test methods containing assertEquals statements that call the methods to be tested. This test file can be generated automatically by Dr Java if you click File -> New JUnit Test Case.
+
+To run JUnit directly from DrJava, click the Test button on the toolbar. If all your test methods pass, you will see a green bar in the lower-right corner. Otherwise, DrJava will take you directly to the first assertion that failed.
+
+---
+
+
+Appendix B - Java 2D Graphics
+-----------------------------
+
+Basic instructions for drawing 2D graphics using the toolkit java.awt, and links to further tutorials.
+
+
+Appendix C - Debugging
+----------------------
+
+Tips on debugging.
+
+
+Additional Notes
+----------------
+
+For working with N-dimensional arrays, there is a library called nd4j:
+
+https://deeplearning4j.org/docs/latest/nd4j-overview
+
+See also:
+
+https://www.quora.com/Is-there-any-Java-equivalent-of-NumPy
+
+Some more open source numerical libraries in Java:
+
+https://www.ee.ucl.ac.uk/~mflanaga/java/OpenSourceNumeric.html
+
+---
+
+In this book, there is no information on reading from files or writing to them.
+
+
+
+
+
+
